@@ -6,8 +6,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.xml.ws.Response;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -60,13 +58,16 @@ public class BookController {
 
 	@PutMapping(value = "/books")
 	public EntityModel<Book> updateBook(@RequestBody Book book) {
-		return bookModelAssembler.toModel(bookService.updateBook(book));	
+		return bookModelAssembler.toModel(bookService.updateBook(book));
 	}
 
 	@DeleteMapping(value = "books/{bookId}")
 	public ResponseEntity<?> deleteBook(@PathVariable(name = "bookId") long bookId) {
+		Book book = bookService.getBookById(bookId);
 		bookService.deleteBook(bookId);
-		return ResponseEntity.noContent().build();
+		EntityModel<Book> entityModel = EntityModel.of(book,linkTo(methodOn(BookController.class).getBooks()).withRel("books"));
+		return ResponseEntity.ok().body(entityModel);
+
 	}
 
 }
