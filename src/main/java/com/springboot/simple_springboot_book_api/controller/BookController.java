@@ -6,9 +6,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.xml.ws.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,18 +53,20 @@ public class BookController {
 	}
 
 	@PostMapping(value = "/books")
-	public Book addBook(@RequestBody Book book) {
-		return bookService.addBook(book);
+	public ResponseEntity<?> addBook(@RequestBody Book book) {
+		EntityModel<Book> entityModel = bookModelAssembler.toModel(bookService.addBook(book));
+		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 	}
 
 	@PutMapping(value = "/books")
-	public Book updateBook(@RequestBody Book book) {
-		return bookService.updateBook(book);
+	public EntityModel<Book> updateBook(@RequestBody Book book) {
+		return bookModelAssembler.toModel(bookService.updateBook(book));	
 	}
 
 	@DeleteMapping(value = "books/{bookId}")
-	public void deleteBook(@PathVariable(name = "bookId") long bookId) {
+	public ResponseEntity<?> deleteBook(@PathVariable(name = "bookId") long bookId) {
 		bookService.deleteBook(bookId);
+		return ResponseEntity.noContent().build();
 	}
 
 }
