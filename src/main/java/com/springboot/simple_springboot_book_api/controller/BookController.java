@@ -6,6 +6,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -51,7 +53,7 @@ public class BookController {
 	}
 
 	@PostMapping(value = "/books")
-	public ResponseEntity<?> addBook(@RequestBody Book book) {
+	public ResponseEntity<?> addBook(@Valid @RequestBody Book book) {
 		EntityModel<Book> entityModel = bookModelAssembler.toModel(bookService.addBook(book));
 		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 	}

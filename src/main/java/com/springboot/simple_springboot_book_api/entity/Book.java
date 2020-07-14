@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="BOOK")
@@ -19,11 +21,11 @@ public class Book {
 	private long id;
 	
 	@Column(name="NAME")
-	
+	@NotBlank(message = "Name is mandatory")
 	private String name;
 	
 	@Column(name="PRICE")
-	
+	@NotNull(message = "Price is mandatory")
 	private BigDecimal price;
 	
 	
