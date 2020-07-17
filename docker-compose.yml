@@ -1,20 +1,30 @@
 version: '3'
 services:
-  postgres: 
-    build: ../database/
+  postgres:     
+    image: postgres
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
     volumes:
       - db-data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_PASSWORD=postgres
+      - ./schema.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
+    networks:
+     - mynetwork
   app:
     build: ./
     ports:
-     - "5001:5001"
+      - "5001:5001"
+    networks:
+      - mynetwork
     depends_on: 
       - postgres
 volumes:
   db-data:
+
+networks:
+  mynetwork:
+    driver: bridge
 
 
