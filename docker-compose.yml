@@ -2,9 +2,8 @@ version: '3'
 services:
   postgres:     
     image: postgres
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+    env_file: 
+    - environment.env   
     volumes:
       - db-data:/var/lib/postgresql/data/
       - ./schema.sql:/docker-entrypoint-initdb.d/init.sql
@@ -20,6 +19,8 @@ services:
       - mynetwork
     depends_on: 
       - postgres
+    env_file: 
+    - environment.env
 volumes:
   db-data:
 

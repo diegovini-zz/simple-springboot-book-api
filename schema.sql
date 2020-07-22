@@ -1,9 +1,3 @@
-CREATE DATABASE bookapi;
-CREATE USER bookapi WITH PASSWORD 'db123';
-GRANT ALL PRIVILEGES ON DATABASE bookapi to bookapi;
-
-\connect bookapi
-
 CREATE TABLE book
 (
 BOOK_ID SERIAL NOT NULL,

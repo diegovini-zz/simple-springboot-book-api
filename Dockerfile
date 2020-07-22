@@ -9,4 +9,4 @@ RUN mvn -f pom.xml clean package -DskipTests
 #Package stage
 FROM openjdk:11-jre-slim AS package-stage
 COPY --from=build /app/target/*.jar /usr/local/lib/app.jar
-ENTRYPOINT ["java", "-jar", "/usr/local/lib/app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "/usr/local/lib/app.jar"]
