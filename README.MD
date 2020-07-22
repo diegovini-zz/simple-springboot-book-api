@@ -8,7 +8,7 @@ This is a simple book api made with Java and the Springboot framework.
  
 ### Installation
   - Clone the project to your machine
-  - Run docker-compose by typing: ```docker-compose --build up```
+  - Run docker-compose by typing: ```docker-compose up --build```
   
 
 
